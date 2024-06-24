@@ -189,34 +189,64 @@ export class ProfileDialogComponent implements OnInit {
     console.log(option)
   }
 
+  // uploadPhoto(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files[0]) {
+  //     const file = input.files[0];
+  
+  //     if (!file.type.startsWith('image/')) {
+  //       this.registerService.openSnackBar('Please upload a valid image file.', 'Close');
+  //       return;
+  //     }
+  
+  //     const img = new Image();
+  //     const reader = new FileReader();
+  
+  //     reader.onload = (e: any) => {
+  //       img.src = e.target.result;
+  
+  //       img.onload = () => {
+  //         if (img.width === 310 && img.height === 325) {
+  //           this.registerService.openSnackBar('Image size should be 310x325 pixels.', 'Close');
+  //         } else {
+  //           this.registrationForm.get('photo').setValue(e.target.result);
+  //         }
+  //       };
+  //     };
+  
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+
   uploadPhoto(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      const file = input.files[0];
-  
-      if (!file.type.startsWith('image/')) {
-        this.registerService.openSnackBar('Please upload a valid image file.', 'Close');
-        return;
-      }
-  
-      const img = new Image();
-      const reader = new FileReader();
-  
-      reader.onload = (e: any) => {
-        img.src = e.target.result;
-  
-        img.onload = () => {
-          if (img.width > 310 || img.height > 325) {
-            this.registerService.openSnackBar('Image size should be within 310x325 pixels.', 'Close');
-          } else {
-            this.registrationForm.get('photo').setValue(e.target.result);
-          }
+        const file = input.files[0];
+
+        if (!file.type.startsWith('image/')) {
+            this.registerService.openSnackBar('Please upload a valid image file.', 'Close');
+            return;
+        }
+
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = (e: any) => {
+            img.src = e.target.result;
+
+            img.onload = () => {
+                if (img.width === 310 && img.height === 325) {
+                    this.registrationForm.get('photo').setValue(e.target.result);
+                } else {
+                    this.registerService.openSnackBar('Image size should be 310x325 pixels.', 'Close');
+                }
+            };
         };
-      };
-  
-      reader.readAsDataURL(file);
+
+        reader.readAsDataURL(file);
     }
-  }
+}
+
 
   onSubmit(): void {
     if (this.registrationForm.valid) {
